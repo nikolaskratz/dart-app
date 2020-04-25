@@ -2,26 +2,30 @@ import speech_recognition as sr
 import os
 
 
-def listen_for_int():
+def get_audio_input():
     r = sr.Recognizer()
-    listen = True
     int_detected = False
+    listen = True
     text = ""
     with sr.Microphone() as source:
         while listen:
-            audio = r.listen(source, phrase_time_limit=3)
+            audio = r.listen(source, phrase_time_limit=4)
             try:
                 text = r.recognize_google(audio)
-                try:
-                    int(text)
-                    int_detected = True
-                except:
-                    pass
-                if int_detected:
-                    # print(text)
-                    speak(text)
+                if "correction" in text:
                     listen = False
-                    return int(text)
+                    speak("Correction")
+                    return get_audio_input()[0], True
+                else:
+                    try:
+                        int(text)
+                        int_detected = True
+                    except:
+                        pass
+                    if int_detected:
+                        speak(text)
+                        liste = False
+                        return int(text), False
             except:
                 pass
 

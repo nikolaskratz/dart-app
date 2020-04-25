@@ -1,4 +1,6 @@
 import speech_recognition as sr
+import os
+
 
 def listen_for_int():
     r = sr.Recognizer()
@@ -17,7 +19,11 @@ def listen_for_int():
                     pass
                 if int_detected:
                     # print(text)
+                    speak(text)
                     listen = False
                     return int(text)
             except:
                 pass
+
+def speak(input):
+    os.system("espeak '{}'".format(input))

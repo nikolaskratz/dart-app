@@ -9,7 +9,7 @@ def get_audio_input():
     text = ""
     with sr.Microphone() as source:
         while listen:
-            audio = r.listen(source, phrase_time_limit=4)
+            audio = r.listen(source, phrase_time_limit=2)
             try:
                 text = r.recognize_google(audio)
                 if "correction" in text:
@@ -24,10 +24,12 @@ def get_audio_input():
                         pass
                     if int_detected:
                         speak(text)
-                        liste = False
+                        listen = False
                         return int(text), False
             except:
                 pass
 
 def speak(input):
     os.system("espeak '{}'".format(input))
+
+
